@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="tool">
+    <file>upvote.png</file>
+    <file>downvote.png</file>
+  </qresource>
+</RCC>
