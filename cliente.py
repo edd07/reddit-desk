@@ -1,3 +1,18 @@
+#===============================================================================
+# This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+# 
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+# 
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#===============================================================================
+
 from PyQt4 import QtGui, QtCore
 from ui import Ui_MainWindow
 from item import Ui_Item
@@ -7,12 +22,12 @@ import sys
 import datetime
 from urllib2 import URLError
 
-def unescape(que):
-    que = que.replace("&lt;", "<")
-    que = que.replace("&gt;", ">")
+def unescape(string):
+    string = string.replace("&lt;", "<")
+    string = string.replace("&gt;", ">")
     # this has to be last:
-    que = que.replace("&amp;", "&")
-    return que
+    string = string.replace("&amp;", "&")
+    return string
 
 def formatDate(num):
     return str(int(num/3600000)) + " hours ago"
@@ -47,7 +62,8 @@ class Cliente():
             
             try:
                 self.reddit.login(self.username, self.password)
-            except reddit.api_exceptions.InvalidUserPass:[self.UI.comboSubreddit.addItem(i.display_name) for i in self.listaSubreddits]
+            except reddit.api_exceptions.InvalidUserPass:
+                [self.UI.comboSubreddit.addItem(i.display_name) for i in self.listaSubreddits]
                 self.password=""
                 self.UI.lineLogin.setText("")
                 self.pasoLogin=0

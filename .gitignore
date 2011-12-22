@@ -2,6 +2,8 @@
 ###################
 .project
 .pydevproject
+*.pyc
+.settings
 
 # Compiled source #
 ###################
