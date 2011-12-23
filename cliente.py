@@ -13,7 +13,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #===============================================================================
 
-from PyQt4 import QtGui, QtCore
+from PySide import QtGui, QtCore
 from ui import Ui_MainWindow
 from item import Ui_Item
 from itemComentario import Ui_ItemComentario
