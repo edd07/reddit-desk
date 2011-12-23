@@ -13,7 +13,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #===============================================================================
 
-from PyQt4 import QtGui, QtCore
+from PySide import QtGui, QtCore
 from ui import Ui_MainWindow
 from item import Ui_Item
 from itemComentario import Ui_ItemComentario
@@ -75,7 +75,7 @@ class Cliente():
                 self.refresh()
                 
     
-    def cargarComentario(self,comment, item):
+    def loadComment(self,comment, item):
         """
         Toma un comentario y llena el widget con la informacion
         
@@ -95,7 +95,7 @@ class Cliente():
         self.UI.treeComentarios.setItemWidget( item,0, widget) #buscar el ItemDelegate
 
     
-    def cargarReplies(self, comment, item):
+    def loadReplies(self, comment, item):
         """
         Toma un comentario y un item para el, agrega todas las replies
         y las pone como hijos del item
@@ -105,10 +105,10 @@ class Cliente():
                     if type(j)!=type({}):                    
                         child = QtGui.QTreeWidgetItem(item)
                         item.addChild(child)
-                        self.cargarComentario(j, child)
-                        self.cargarReplies(j,child)
+                        self.loadComment(j, child)
+                        self.loadReplies(j,child)
     
-    def cargarSubreddit(self,current):
+    def loadSubreddit(self,current):
         """
         Llena la lista de posts con la frontpage del subreddit seleccionado
         en el combo box
@@ -137,7 +137,7 @@ class Cliente():
             item.setSizeHint(QtCore.QSize(0,105))
         
 
-    def cargarSubmission(self):
+    def loadSubmission(self):
         """
         Llena el titulo, el webView y los comentarios con la submission seleccionada en la lista
         """
@@ -152,14 +152,17 @@ class Cliente():
         else:
             self.UI.webLink.load( QtCore.QUrl( self.submission.url ) )
             
+        
         #comentarios
-        self.UI.treeComentarios.clear()
-        for i in self.submission.comments:
-            if type(i)!=type({}): #si no es un diccionario
-                item = QtGui.QTreeWidgetItem(self.UI.treeComentarios)
-                self.UI.treeComentarios.addTopLevelItem(item)
-                self.cargarReplies(i,item)                
-                self.cargarComentario(i,item)
+        #=======================================================================
+        # self.UI.treeComentarios.clear()
+        # for i in self.submission.comments:
+        #    if type(i)!=type({}): #si no es un diccionario
+        #        item = QtGui.QTreeWidgetItem(self.UI.treeComentarios)
+        #        self.UI.treeComentarios.addTopLevelItem(item)
+        #        self.loadReplies(i,item)                
+        #        self.loadComment(i,item)
+        #=======================================================================
 
         self.UI.treeComentarios.expandAll()
     
@@ -169,9 +172,9 @@ class Cliente():
         self.form.show()
         
         #setup signals & slots:
-        #QtCore.QObject.connect(self.UI.listPosts, QtCore.SIGNAL("itemSelectionChanged()"), self.cargarSubmission)
-        self.UI.listPosts.itemSelectionChanged.connect(self.cargarSubmission)
-        self.UI.comboSubreddit.currentIndexChanged.connect(self.cargarSubreddit)     
+        #QtCore.QObject.connect(self.UI.listPosts, QtCore.SIGNAL("itemSelectionChanged()"), self.loadSubmission)
+        self.UI.listPosts.itemSelectionChanged.connect(self.loadSubmission)
+        self.UI.comboSubreddit.currentIndexChanged.connect(self.loadSubreddit)     
         self.UI.lineLogin.returnPressed.connect(self.enterLogin)
         
         try:
@@ -195,7 +198,7 @@ class Cliente():
             
         self.UI.comboSubreddit.addItem("Front Page")
         [self.UI.comboSubreddit.addItem(i.display_name) for i in self.listaSubreddits]
-        self.cargarSubreddit(0) #cargar la frontpage
+        self.loadSubreddit(0) #cargar la frontpage
         
 
 if __name__ == "__main__":

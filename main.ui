@@ -100,7 +100,7 @@
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <property name="documentMode">
            <bool>false</bool>
@@ -127,7 +127,7 @@
            </attribute>
            <layout class="QHBoxLayout" name="horizontalLayout_7">
             <item>
-             <widget class="QTreeWidget" name="treeComentarios">
+             <widget class="QTreeView" name="treeComentarios">
               <property name="alternatingRowColors">
                <bool>true</bool>
               </property>
@@ -149,11 +149,6 @@
               <property name="headerHidden">
                <bool>true</bool>
               </property>
-              <column>
-               <property name="text">
-                <string notr="true">1</string>
-               </property>
-              </column>
              </widget>
             </item>
            </layout>
