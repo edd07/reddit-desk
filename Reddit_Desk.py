@@ -83,7 +83,7 @@ class Reddit_Desk():
         Loads a comment widget with the comment's data and puts it onto the tree item       
         """
         commentItem = Ui_ItemComentario()
-        widget = QtGui.QWidget()
+        widget = QtGui.QWidget(self.UI.treeComentarios)
         commentItem.setupUi(widget)
         commentItem.labelScore.setText(str(comment.ups - comment.downs)+" points")
         commentItem.labelComentario.setText(unescape(comment.body))
@@ -151,7 +151,6 @@ class Reddit_Desk():
         else:
             self.UI.webLink.load(QtCore.QUrl(self.submission.url))
             
-        
         #comments        
         self.UI.treeComentarios.clear()
         for i in self.submission.comments:
@@ -160,7 +159,6 @@ class Reddit_Desk():
                 self.UI.treeComentarios.addTopLevelItem(item)
                 self.loadComment(i,item)
                 self.loadReplies(i,item)                
-
         
         self.UI.labelTitulo.setText(self.submission.title)
         
