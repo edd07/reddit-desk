@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'main.ui'
 #
-# Created: Thu Dec 22 13:18:30 2011
+# Created: Fri Dec 23 12:25:17 2011
 #      by: pyside-uic 0.2.11 running on PySide 1.0.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -76,7 +76,7 @@ class Ui_MainWindow(object):
         self.tab_6.setObjectName("tab_6")
         self.horizontalLayout_7 = QtGui.QHBoxLayout(self.tab_6)
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
-        self.treeComentarios = QtGui.QTreeView(self.tab_6)
+        self.treeComentarios = QtGui.QTreeWidget(self.tab_6)
         self.treeComentarios.setAlternatingRowColors(True)
         self.treeComentarios.setVerticalScrollMode(QtGui.QAbstractItemView.ScrollPerPixel)
         self.treeComentarios.setIndentation(30)
@@ -85,6 +85,7 @@ class Ui_MainWindow(object):
         self.treeComentarios.setWordWrap(True)
         self.treeComentarios.setHeaderHidden(True)
         self.treeComentarios.setObjectName("treeComentarios")
+        self.treeComentarios.headerItem().setText(0, "1")
         self.horizontalLayout_7.addWidget(self.treeComentarios)
         self.tabWidget.addTab(self.tab_6, "")
         self.verticalLayout_2.addWidget(self.tabWidget)
@@ -98,13 +99,13 @@ class Ui_MainWindow(object):
         self.actionUpvote.setCheckable(True)
         self.actionUpvote.setChecked(False)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("upvote.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("../../../../../../.designer/backup/upvote.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionUpvote.setIcon(icon)
         self.actionUpvote.setObjectName("actionUpvote")
         self.actionDownvote = QtGui.QAction(MainWindow)
         self.actionDownvote.setCheckable(True)
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("downvote.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("../../../../../../.designer/backup/downvote.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionDownvote.setIcon(icon1)
         self.actionDownvote.setObjectName("actionDownvote")
 
