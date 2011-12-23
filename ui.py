@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'main.ui'
 #
-# Created: Fri Dec 23 12:25:17 2011
-#      by: pyside-uic 0.2.11 running on PySide 1.0.6
+# Created: Fri Dec 23 15:24:58 2011
+#      by: pyside-uic 0.2.11 running on PySide 1.0.9
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -77,7 +77,10 @@ class Ui_MainWindow(object):
         self.horizontalLayout_7 = QtGui.QHBoxLayout(self.tab_6)
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
         self.treeComentarios = QtGui.QTreeWidget(self.tab_6)
+        self.treeComentarios.setAutoFillBackground(True)
+        self.treeComentarios.setFrameShadow(QtGui.QFrame.Plain)
         self.treeComentarios.setAlternatingRowColors(True)
+        self.treeComentarios.setSelectionMode(QtGui.QAbstractItemView.NoSelection)
         self.treeComentarios.setVerticalScrollMode(QtGui.QAbstractItemView.ScrollPerPixel)
         self.treeComentarios.setIndentation(30)
         self.treeComentarios.setAnimated(True)

@@ -139,9 +139,10 @@ class Reddit_Desk():
 
     def loadSubmission(self):
         """
-        Fills the title, web view and comment tree with the current submission
+        Fills the title, web view and comment tree with the current submission. Currently
+        slow as molasses until I get the multi-threading working.
         """
-        self.UI.labelTitulo.setText("Loading...")
+        self.UI.labelTitulo.setText("<em>Loading...</em>")
                 
         self.submission = self.posts[ self.UI.listPosts.currentRow() ]
         
@@ -165,6 +166,7 @@ class Reddit_Desk():
         self.UI.treeComentarios.expandAll()
     
     def __init__(self):
+
         self.UI.setupUi(self.form)
         
         #setup signals & slots:
@@ -179,7 +181,9 @@ class Reddit_Desk():
         except URLError:
             self.UI.labelTitulo.setText("No Internet connection")
         
-        sys.exit(self.app.exec_())
+        
+        self.app.exec_()
+        sys.exit()
         
     def refresh(self):
         """
