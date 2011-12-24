@@ -12,16 +12,19 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #===============================================================================
+
 import sys
 import datetime
 from urllib2 import URLError
 from PySide import QtGui, QtCore
+import threading
 
 import reddit
 
 from ui import Ui_MainWindow
 from item import Ui_Item
 from itemComentario import Ui_ItemComentario
+from threads import *
 
 
 def unescape(string):
@@ -35,12 +38,13 @@ def unescape(string):
 def formatDate(num):
     return str(int(num/3600000)) + " hours ago"
 
-defaultSubreddits = ["pics","gaming","worldnews","videos","todayilearned", \
+
+class Reddit_Desk():
+    defaultSubreddits = ["pics","gaming","worldnews","videos","todayilearned", \
     "IAmA","funny","atheism", "politics","science","AskReddit","technology", \
     "WTF","blog","announcements","bestof","AdviceAnimals","Music","aww", \
     "askscience","movies"]
-
-class Reddit_Desk():
+    
     app = QtGui.QApplication(sys.argv)
     form = QtGui.QMainWindow()
     UI = Ui_MainWindow()
@@ -52,6 +56,9 @@ class Reddit_Desk():
     username =""
     password =""
     pasoLogin=0
+    requestThread = QtCore.QThread()
+    
+    
     
     def enterLogin(self):
         if(self.pasoLogin==0):
@@ -75,7 +82,7 @@ class Reddit_Desk():
                 self.UI.lineLogin.setEchoMode(QtGui.QLineEdit.EchoMode(0))#login
                 self.UI.lineLogin.setText("Logged in as "+self.reddit.user.user_name)
                 self.UI.lineLogin.setEnabled(False)
-                self.refresh()
+                self.loadPostList()
                 
     
     def loadComment(self,comment, item):
@@ -107,7 +114,7 @@ class Reddit_Desk():
                 self.loadComment(j, child)
                 self.loadReplies(j,child)
     
-    def loadSubreddit(self,current):
+    def loadSubreddit(self):
         """
         Fills the post list with the selected subreddit's font page
         """
@@ -135,33 +142,40 @@ class Reddit_Desk():
             self.UI.listPosts.addItem(item)
             self.UI.listPosts.setItemWidget( item, widget)
             item.setSizeHint(QtCore.QSize(0,105))
-        
+    
+    def requestSubmission(self):
+        """
+        Starts the thread to request a submission's data.
+        """
+        if(not self.requestThread.isRunning()):
+            self.UI.labelTitulo.setText("Loading Submission...")
+            self.currentSubmission = self.posts[self.UI.listPosts.currentRow()]
+            self.requestThread = requestSubmissionThread(self.currentSubmission)
+            self.requestThread.finished.connect(self.loadSubmission)
+            self.requestThread.start()   
 
     def loadSubmission(self):
         """
-        Fills the title, web view and comment tree with the current submission. Currently
-        slow as molasses until I get the multi-threading working.
+        Fills the title, web view and comment tree with the current submission.
         """
-        self.UI.labelTitulo.setText("<em>Loading...</em>")
-                
-        self.submission = self.posts[ self.UI.listPosts.currentRow() ]
         
+        ##load
          #webview
-        if(self.submission.is_self):
-            self.UI.webLink.setHtml(unescape(self.submission.selftext_html))
+        if(self.currentSubmission.is_self):
+            self.UI.webLink.setHtml(unescape(self.currentSubmission.selftext_html))
         else:
-            self.UI.webLink.load(QtCore.QUrl(self.submission.url))
+            self.UI.webLink.load(QtCore.QUrl(self.currentSubmission.url))
             
         #comments        
         self.UI.treeComentarios.clear()
-        for i in self.submission.comments:
+        for i in self.currentSubmission.comments:
             if type(i)!=type({}): #The list has a dictionary at the end for some reason
                 item = QtGui.QTreeWidgetItem(self.UI.treeComentarios)
                 self.UI.treeComentarios.addTopLevelItem(item)
                 self.loadComment(i,item)
                 self.loadReplies(i,item)                
         
-        self.UI.labelTitulo.setText(self.submission.title)
+        self.UI.labelTitulo.setText(self.currentSubmission.title)
         
         self.UI.treeComentarios.expandAll()
     
@@ -170,22 +184,25 @@ class Reddit_Desk():
         self.UI.setupUi(self.form)
         
         #setup signals & slots:
-        self.UI.listPosts.itemSelectionChanged.connect(self.loadSubmission)
+        self.UI.listPosts.itemSelectionChanged.connect(self.requestSubmission)
+        
         self.UI.comboSubreddit.currentIndexChanged.connect(self.loadSubreddit)     
+        
         self.UI.lineLogin.returnPressed.connect(self.enterLogin)
         
         self.form.show()
         
         try:
-            self.refresh()
+            self.loadPostList()
+            #loadSubredditsThread(self).start()
         except URLError:
             self.UI.labelTitulo.setText("No Internet connection")
         
         
         self.app.exec_()
-        sys.exit()
+        sys.exit()        
         
-    def refresh(self):
+    def loadPostList(self):
         """
         Fills the Subreddit combobox and the post list with the user's front page
         """
@@ -195,12 +212,13 @@ class Reddit_Desk():
         if( self.reddit.user is not None ):
             self.subredditList = list(self.reddit.user.get_my_reddits())
         else:
-            self.subredditList = [self.reddit.get_subreddit(i) for i in defaultSubreddits]
+            self.subredditList = [self.reddit.get_subreddit(i) for i in self.defaultSubreddits]
             
         self.UI.comboSubreddit.addItem("Front Page")
         [self.UI.comboSubreddit.addItem(i.display_name) for i in self.subredditList]
         
-        self.loadSubreddit(0) #load the frontpage
+        self.loadSubreddit() #load the frontpage
+        #loadPostListThread(self).start()
         
 
 if __name__ == "__main__":

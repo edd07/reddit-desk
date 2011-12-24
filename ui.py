@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'main.ui'
+# Form implementation generated from reading ui file 'ui.ui'
 #
-# Created: Fri Dec 23 15:24:58 2011
+# Created: Sat Dec 24 16:41:59 2011
 #      by: pyside-uic 0.2.11 running on PySide 1.0.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -61,7 +61,7 @@ class Ui_MainWindow(object):
         self.tabWidget = QtGui.QTabWidget(self.layoutWidget1)
         self.tabWidget.setTabPosition(QtGui.QTabWidget.South)
         self.tabWidget.setTabShape(QtGui.QTabWidget.Rounded)
-        self.tabWidget.setDocumentMode(False)
+        self.tabWidget.setDocumentMode(True)
         self.tabWidget.setObjectName("tabWidget")
         self.tab_5 = QtGui.QWidget()
         self.tab_5.setObjectName("tab_5")
@@ -82,7 +82,7 @@ class Ui_MainWindow(object):
         self.treeComentarios.setAlternatingRowColors(True)
         self.treeComentarios.setSelectionMode(QtGui.QAbstractItemView.NoSelection)
         self.treeComentarios.setVerticalScrollMode(QtGui.QAbstractItemView.ScrollPerPixel)
-        self.treeComentarios.setIndentation(30)
+        self.treeComentarios.setIndentation(25)
         self.treeComentarios.setAnimated(True)
         self.treeComentarios.setAllColumnsShowFocus(True)
         self.treeComentarios.setWordWrap(True)
@@ -117,7 +117,7 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "Cliente reddit", None, QtGui.QApplication.UnicodeUTF8))
+        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "reddit-desk", None, QtGui.QApplication.UnicodeUTF8))
         self.lineLogin.setPlaceholderText(QtGui.QApplication.translate("MainWindow", "Login...", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_5), QtGui.QApplication.translate("MainWindow", "Link", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_6), QtGui.QApplication.translate("MainWindow", "Comentarios", None, QtGui.QApplication.UnicodeUTF8))
