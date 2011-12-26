@@ -49,7 +49,7 @@ class Reddit_Desk():
     form = QtGui.QMainWindow()
     UI = Ui_MainWindow()
     reddit = reddit.Reddit(user_agent="reddit-desk")
-    posts = []
+    currentPostList = []
     subredditList = []
     comments = []
     loggedIn = False
@@ -82,7 +82,7 @@ class Reddit_Desk():
                 self.UI.lineLogin.setEchoMode(QtGui.QLineEdit.EchoMode(0))#login
                 self.UI.lineLogin.setText("Logged in as "+self.reddit.user.user_name)
                 self.UI.lineLogin.setEnabled(False)
-                self.loadPostList()
+                self.loadSubreddits()
                 
     
     def loadComment(self,comment, item):
@@ -113,23 +113,38 @@ class Reddit_Desk():
                 item.addChild(child)
                 self.loadComment(j, child)
                 self.loadReplies(j,child)
-    
-    def loadSubreddit(self):
+                
+    def requestPostList(self):
         """
-        Fills the post list with the selected subreddit's font page
+        Starts a thread to request the post list from either a subreddit or the user's
+        front page
+        """
+        if(self.UI.comboSubreddit.currentIndex()>=0 and not self.requestThread.isRunning()):
+            self.UI.labelTitulo.setText("Loading Post List...")
+            self.UI.listPosts.clear()
+            
+            if(self.UI.comboSubreddit.currentIndex() == 0):
+                print "requesting front page"
+                self.requestThread = requestPostListThread(\
+                                                        self.currentPostList,\
+                                                        reddit=self.reddit)
+            elif(self.UI.comboSubreddit.currentIndex()>0):
+                currentSubreddit=self.subredditList[self.UI.comboSubreddit.currentIndex()-1]
+                self.requestThread = requestPostListThread(\
+                                                        self.currentPostList,\
+                                                        subreddit=currentSubreddit)
+            self.requestThread.finished.connect(self.loadPostList)
+            self.requestThread.start()
+    
+    def loadPostList(self):
+        """
+        Fills the GUI post list with the current post list
         """
         
         self.UI.listPosts.clear()
-        if(self.UI.comboSubreddit.currentIndex() == 0):
-            self.posts = self.reddit.get_front_page()
-        elif(self.UI.comboSubreddit.currentIndex()<0):
-            return
-        else:
-            self.posts = self.reddit.get_subreddit(
-        self.subredditList[self.UI.comboSubreddit.currentIndex()-1].display_name).get_hot()
             
-        for i in self.posts:
-            item = QtGui.QListWidgetItem( self.UI.listPosts )
+        for i in self.currentPostList:
+            item = QtGui.QListWidgetItem(self.UI.listPosts)
             subredditItem = Ui_Item()   
             widget = QtGui.QWidget()
             subredditItem.setupUi(widget)
@@ -149,7 +164,7 @@ class Reddit_Desk():
         """
         if(not self.requestThread.isRunning()):
             self.UI.labelTitulo.setText("Loading Submission...")
-            self.currentSubmission = self.posts[self.UI.listPosts.currentRow()]
+            self.currentSubmission = self.currentPostList[self.UI.listPosts.currentRow()]
             self.requestThread = requestSubmissionThread(self.currentSubmission)
             self.requestThread.finished.connect(self.loadSubmission)
             self.requestThread.start()   
@@ -185,15 +200,14 @@ class Reddit_Desk():
         
         #setup signals & slots:
         self.UI.listPosts.itemSelectionChanged.connect(self.requestSubmission)
-        
-        self.UI.comboSubreddit.currentIndexChanged.connect(self.loadSubreddit)     
+        self.UI.comboSubreddit.currentIndexChanged.connect(self.requestPostList)     
         
         self.UI.lineLogin.returnPressed.connect(self.enterLogin)
         
         self.form.show()
         
         try:
-            self.loadPostList()
+            self.loadSubreddits()
             #loadSubredditsThread(self).start()
         except URLError:
             self.UI.labelTitulo.setText("No Internet connection")
@@ -202,7 +216,7 @@ class Reddit_Desk():
         self.app.exec_()
         sys.exit()        
         
-    def loadPostList(self):
+    def loadSubreddits(self):
         """
         Fills the Subreddit combobox and the post list with the user's front page
         """
@@ -217,7 +231,7 @@ class Reddit_Desk():
         self.UI.comboSubreddit.addItem("Front Page")
         [self.UI.comboSubreddit.addItem(i.display_name) for i in self.subredditList]
         
-        self.loadSubreddit() #load the frontpage
+        self.loadPostList() #load the frontpage
         #loadPostListThread(self).start()
         
 
