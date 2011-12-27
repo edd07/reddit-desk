@@ -8,7 +8,7 @@ Dependencies
 
 * Python 2.7+
 * PySide
-* Python wrapping for Reddit's API found at mellort/reddit_api
+* Python wrapping for Reddit's API found at https://github.com/mellort/reddit_api
 
 License
 -------
