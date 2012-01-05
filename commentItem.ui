@@ -41,7 +41,8 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>upvote.png</normaloff>upvote.png</iconset>
+         <normaloff>upvote-off.png</normaloff>
+         <normalon>upvote-on.png</normalon>upvote-off.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -79,7 +80,8 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>downvote.png</normaloff>downvote.png</iconset>
+         <normaloff>downvote-off.png</normaloff>
+         <normalon>downvote-on.png</normalon>downvote-off.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -125,6 +127,9 @@
            <weight>75</weight>
            <bold>true</bold>
           </font>
+         </property>
+         <property name="autoFillBackground">
+          <bool>true</bool>
          </property>
          <property name="text">
           <string>TextLabel</string>

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'submissionItem.ui'
 #
-# Created: Thu Jan  5 12:32:10 2012
+# Created: Thu Jan  5 12:56:42 2012
 #      by: pyside-uic 0.2.11 running on PySide 1.0.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -13,7 +13,8 @@ class Ui_submissionItem(object):
     def setupUi(self, submissionItem):
         submissionItem.setObjectName("submissionItem")
         submissionItem.resize(712, 105)
-        submissionItem.setMinimumSize(QtCore.QSize(0, 105))
+        submissionItem.setMinimumSize(QtCore.QSize(0, 0))
+        submissionItem.setAutoFillBackground(True)
         self.horizontalLayout_2 = QtGui.QHBoxLayout(submissionItem)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.verticalLayout = QtGui.QVBoxLayout()
@@ -23,7 +24,8 @@ class Ui_submissionItem(object):
         self.buttonUpvote.setMaximumSize(QtCore.QSize(20, 20))
         self.buttonUpvote.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("upvote.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("upvote-off.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("upvote-on.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
         self.buttonUpvote.setIcon(icon)
         self.buttonUpvote.setIconSize(QtCore.QSize(15, 14))
         self.buttonUpvote.setCheckable(True)
@@ -46,7 +48,8 @@ class Ui_submissionItem(object):
         self.buttonDownvote.setMaximumSize(QtCore.QSize(20, 20))
         self.buttonDownvote.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("downvote.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("downvote-off.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("downvote-on.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
         self.buttonDownvote.setIcon(icon1)
         self.buttonDownvote.setIconSize(QtCore.QSize(15, 14))
         self.buttonDownvote.setCheckable(True)

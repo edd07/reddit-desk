@@ -17,7 +17,6 @@ class requestPostListThread(QtCore.QThread):
         self.subreddit = subreddit
         self.reddit = reddit
         self.postList = postList
-        print "Spawning thread"
     def run(self):
         del self.postList[:] #Clears the list without losing the reference to the original
         if self.subreddit:

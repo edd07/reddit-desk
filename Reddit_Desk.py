@@ -98,7 +98,7 @@ class Reddit_Desk():
         widget = QtGui.QWidget(self.UI.treeComentarios)
         commentItem.setupUi(widget)
         commentItem.labelScore.setText(str(comment.ups - comment.downs)+" points")
-        commentItem.labelComentario.setText(unescape(comment.body))
+        commentItem.labelComentario.setText(unescape(comment.body_html))
         commentItem.labelTime.setText(formatDate(comment.created))
         commentItem.labelRedditor.setText(comment.author.user_name)
         
@@ -129,7 +129,6 @@ class Reddit_Desk():
             self.UI.listPosts.clear()
             
             if(self.UI.comboSubreddit.currentIndex() == 0):
-                print "requesting front page"
                 self.requestThread = requestPostListThread(\
                                                         self.currentPostList,\
                                                         reddit=self.reddit)
@@ -211,11 +210,9 @@ class Reddit_Desk():
         
         try:
             self.loadSubreddits()
-            #loadSubredditsThread(self).start()
         except URLError:
             self.UI.labelTitulo.setText("No Internet connection")
-        
-        
+            
         self.app.exec_()
         sys.exit()        
         

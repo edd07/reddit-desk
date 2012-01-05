@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'commentItem.ui'
 #
-# Created: Thu Jan  5 12:26:20 2012
+# Created: Thu Jan  5 12:56:43 2012
 #      by: pyside-uic 0.2.11 running on PySide 1.0.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -13,7 +13,7 @@ class Ui_commentItem(object):
     def setupUi(self, commentItem):
         commentItem.setObjectName("commentItem")
         commentItem.resize(712, 64)
-        commentItem.setMinimumSize(QtCore.QSize(0, 40))
+        commentItem.setMinimumSize(QtCore.QSize(0, 0))
         self.horizontalLayout_2 = QtGui.QHBoxLayout(commentItem)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.verticalLayout = QtGui.QVBoxLayout()
@@ -23,7 +23,8 @@ class Ui_commentItem(object):
         self.buttonUpvote.setMaximumSize(QtCore.QSize(20, 20))
         self.buttonUpvote.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("upvote.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("upvote-off.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("upvote-on.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
         self.buttonUpvote.setIcon(icon)
         self.buttonUpvote.setIconSize(QtCore.QSize(15, 14))
         self.buttonUpvote.setCheckable(True)
@@ -36,7 +37,8 @@ class Ui_commentItem(object):
         self.buttonDownvote.setMaximumSize(QtCore.QSize(20, 20))
         self.buttonDownvote.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("downvote.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("downvote-off.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("downvote-on.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
         self.buttonDownvote.setIcon(icon1)
         self.buttonDownvote.setIconSize(QtCore.QSize(15, 14))
         self.buttonDownvote.setCheckable(True)
@@ -57,6 +59,7 @@ class Ui_commentItem(object):
         font.setWeight(75)
         font.setBold(True)
         self.labelRedditor.setFont(font)
+        self.labelRedditor.setAutoFillBackground(True)
         self.labelRedditor.setObjectName("labelRedditor")
         self.horizontalLayout.addWidget(self.labelRedditor)
         self.labelScore = QtGui.QLabel(commentItem)

@@ -13,11 +13,14 @@
   <property name="minimumSize">
    <size>
     <width>0</width>
-    <height>105</height>
+    <height>0</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2">
    <item>
@@ -41,7 +44,8 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>upvote.png</normaloff>upvote.png</iconset>
+         <normaloff>upvote-off.png</normaloff>
+         <normalon>upvote-on.png</normalon>upvote-off.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -96,7 +100,8 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>downvote.png</normaloff>downvote.png</iconset>
+         <normaloff>downvote-off.png</normaloff>
+         <normalon>downvote-on.png</normalon>downvote-off.png</iconset>
        </property>
        <property name="iconSize">
         <size>
