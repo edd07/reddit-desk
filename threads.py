@@ -4,9 +4,7 @@ from PySide import QtGui, QtCore
 import reddit
 
 class requestSubmissionThread(QtCore.QThread):
-    """
-    Retrieves a submission's comments without blocking the GUI thread
-    """    
+    """ Retrieves a submission's comments without blocking the GUI thread"""    
     def __init__(self,submission):
         super(requestSubmissionThread,self).__init__()
         self.submission = submission
@@ -27,10 +25,18 @@ class requestPostListThread(QtCore.QThread):
         elif self.reddit:        
             list=self.reddit.get_front_page()
         else:
-            raise Exception("Wrong parameters")
-        
+            raise Exception("Wrong parameters")     
         for i in list:
             self.postList.append(i)
+
+class loginThread(QtCore.QThread):
+    """Logs a user in without blocking the GUI thread"""
+    def __init__(self,reddit,user,password):
+        self.reddit=reddit    
+        self.user=user
+        self.password=password
+    def run(self):
+        reddit.login(user=self.user,password=self.password)
                 
         
             

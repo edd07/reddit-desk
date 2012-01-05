@@ -21,9 +21,9 @@ import threading
 
 import reddit
 
-from ui import Ui_MainWindow
-from item import Ui_Item
-from itemComentario import Ui_ItemComentario
+from MainWindow import Ui_MainWindow
+from submissionItem import Ui_submissionItem
+from commentItem import Ui_commentItem
 from threads import *
 
 
@@ -36,7 +36,7 @@ def unescape(string):
     return string
 
 def formatDate(num):
-    return str(int(num/3600000)) + " hours ago"
+    return str(num/3600000) + " hours ago"
 
 
 class Reddit_Desk():
@@ -71,7 +71,9 @@ class Reddit_Desk():
             self.password = str(self.UI.lineLogin.text())
             
             try:
-                self.reddit.login(self.username, self.password)
+                #self.reddit.login(self.username, self.password)
+                self.requestThread = loginThread(self.reddit,self.username,self.password)
+                self.requestThread.finished.connect(self.refreshLogin)
             except reddit.api_exceptions.InvalidUserPass:
                 [self.UI.comboSubreddit.addItem(i.display_name) for i in self.subredditList]
                 self.password=""
@@ -83,13 +85,16 @@ class Reddit_Desk():
                 self.UI.lineLogin.setText("Logged in as "+self.reddit.user.user_name)
                 self.UI.lineLogin.setEnabled(False)
                 self.loadSubreddits()
+    
+    def refreshLogin(self):
+        pass
                 
     
     def loadComment(self,comment, item):
         """
         Loads a comment widget with the comment's data and puts it onto the tree item       
         """
-        commentItem = Ui_ItemComentario()
+        commentItem = Ui_commentItem()
         widget = QtGui.QWidget(self.UI.treeComentarios)
         commentItem.setupUi(widget)
         commentItem.labelScore.setText(str(comment.ups - comment.downs)+" points")
@@ -145,7 +150,7 @@ class Reddit_Desk():
             
         for i in self.currentPostList:
             item = QtGui.QListWidgetItem(self.UI.listPosts)
-            subredditItem = Ui_Item()   
+            subredditItem = Ui_submissionItem()   
             widget = QtGui.QWidget()
             subredditItem.setupUi(widget)
             subredditItem.labelScore.setText(str(i.score))
@@ -173,8 +178,6 @@ class Reddit_Desk():
         """
         Fills the title, web view and comment tree with the current submission.
         """
-        
-        ##load
          #webview
         if(self.currentSubmission.is_self):
             self.UI.webLink.setHtml(unescape(self.currentSubmission.selftext_html))
