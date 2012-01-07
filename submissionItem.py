@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'submissionItem.ui'
 #
-# Created: Thu Jan  5 12:56:42 2012
+# Created: Sat Jan  7 19:58:44 2012
 #      by: pyside-uic 0.2.11 running on PySide 1.0.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -62,18 +62,18 @@ class Ui_submissionItem(object):
         self.horizontalLayout_2.addLayout(self.verticalLayout)
         self.verticalLayout_2 = QtGui.QVBoxLayout()
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.labelTitulo = QtGui.QLabel(submissionItem)
+        self.labelTitle = QtGui.QLabel(submissionItem)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.labelTitulo.sizePolicy().hasHeightForWidth())
-        self.labelTitulo.setSizePolicy(sizePolicy)
-        self.labelTitulo.setText("")
-        self.labelTitulo.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
-        self.labelTitulo.setWordWrap(True)
-        self.labelTitulo.setMargin(3)
-        self.labelTitulo.setObjectName("labelTitulo")
-        self.verticalLayout_2.addWidget(self.labelTitulo)
+        sizePolicy.setHeightForWidth(self.labelTitle.sizePolicy().hasHeightForWidth())
+        self.labelTitle.setSizePolicy(sizePolicy)
+        self.labelTitle.setText("")
+        self.labelTitle.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
+        self.labelTitle.setWordWrap(True)
+        self.labelTitle.setMargin(3)
+        self.labelTitle.setObjectName("labelTitle")
+        self.verticalLayout_2.addWidget(self.labelTitle)
         self.horizontalLayout = QtGui.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.labelSubreddit = QtGui.QLabel(submissionItem)

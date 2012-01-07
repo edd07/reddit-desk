@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'commentItem.ui'
 #
-# Created: Thu Jan  5 12:56:43 2012
+# Created: Sat Jan  7 19:58:50 2012
 #      by: pyside-uic 0.2.11 running on PySide 1.0.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -59,7 +59,6 @@ class Ui_commentItem(object):
         font.setWeight(75)
         font.setBold(True)
         self.labelRedditor.setFont(font)
-        self.labelRedditor.setAutoFillBackground(True)
         self.labelRedditor.setObjectName("labelRedditor")
         self.horizontalLayout.addWidget(self.labelRedditor)
         self.labelScore = QtGui.QLabel(commentItem)

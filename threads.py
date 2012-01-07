@@ -12,7 +12,7 @@ class requestSubmissionThread(QtCore.QThread):
         self.submission.comments
         
 class requestPostListThread(QtCore.QThread):
-    def __init__(self,postList,subreddit=None, reddit=None):
+    def __init__(self, postList, subreddit=None, reddit=None, *args):
         super(requestPostListThread,self).__init__()
         self.subreddit = subreddit
         self.reddit = reddit
