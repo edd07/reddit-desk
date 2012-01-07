@@ -1,29 +1,30 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'itemComentario.ui'
+# Form implementation generated from reading ui file 'commentItem.ui'
 #
-# Created: Thu Dec 22 13:22:34 2011
-#      by: pyside-uic 0.2.11 running on PySide 1.0.6
+# Created: Sat Jan  7 19:58:50 2012
+#      by: pyside-uic 0.2.11 running on PySide 1.0.9
 #
 # WARNING! All changes made in this file will be lost!
 
 from PySide import QtCore, QtGui
 
-class Ui_ItemComentario(object):
-    def setupUi(self, ItemComentario):
-        ItemComentario.setObjectName("ItemComentario")
-        ItemComentario.resize(712, 64)
-        ItemComentario.setMinimumSize(QtCore.QSize(0, 40))
-        self.horizontalLayout_2 = QtGui.QHBoxLayout(ItemComentario)
+class Ui_commentItem(object):
+    def setupUi(self, commentItem):
+        commentItem.setObjectName("commentItem")
+        commentItem.resize(712, 64)
+        commentItem.setMinimumSize(QtCore.QSize(0, 0))
+        self.horizontalLayout_2 = QtGui.QHBoxLayout(commentItem)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.verticalLayout = QtGui.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
-        self.buttonUpvote = QtGui.QPushButton(ItemComentario)
+        self.buttonUpvote = QtGui.QPushButton(commentItem)
         self.buttonUpvote.setMinimumSize(QtCore.QSize(20, 20))
         self.buttonUpvote.setMaximumSize(QtCore.QSize(20, 20))
         self.buttonUpvote.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("upvote.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("upvote-off.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("upvote-on.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
         self.buttonUpvote.setIcon(icon)
         self.buttonUpvote.setIconSize(QtCore.QSize(15, 14))
         self.buttonUpvote.setCheckable(True)
@@ -31,12 +32,13 @@ class Ui_ItemComentario(object):
         self.buttonUpvote.setFlat(True)
         self.buttonUpvote.setObjectName("buttonUpvote")
         self.verticalLayout.addWidget(self.buttonUpvote)
-        self.buttonDownvote = QtGui.QPushButton(ItemComentario)
+        self.buttonDownvote = QtGui.QPushButton(commentItem)
         self.buttonDownvote.setMinimumSize(QtCore.QSize(20, 20))
         self.buttonDownvote.setMaximumSize(QtCore.QSize(20, 20))
         self.buttonDownvote.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("downvote.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("downvote-off.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("downvote-on.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
         self.buttonDownvote.setIcon(icon1)
         self.buttonDownvote.setIconSize(QtCore.QSize(15, 14))
         self.buttonDownvote.setCheckable(True)
@@ -51,7 +53,7 @@ class Ui_ItemComentario(object):
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.horizontalLayout = QtGui.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.labelRedditor = QtGui.QLabel(ItemComentario)
+        self.labelRedditor = QtGui.QLabel(commentItem)
         font = QtGui.QFont()
         font.setPointSize(8)
         font.setWeight(75)
@@ -59,14 +61,14 @@ class Ui_ItemComentario(object):
         self.labelRedditor.setFont(font)
         self.labelRedditor.setObjectName("labelRedditor")
         self.horizontalLayout.addWidget(self.labelRedditor)
-        self.labelScore = QtGui.QLabel(ItemComentario)
+        self.labelScore = QtGui.QLabel(commentItem)
         font = QtGui.QFont()
         font.setPointSize(8)
         font.setItalic(True)
         self.labelScore.setFont(font)
         self.labelScore.setObjectName("labelScore")
         self.horizontalLayout.addWidget(self.labelScore)
-        self.labelTime = QtGui.QLabel(ItemComentario)
+        self.labelTime = QtGui.QLabel(commentItem)
         font = QtGui.QFont()
         font.setPointSize(8)
         font.setItalic(True)
@@ -74,7 +76,7 @@ class Ui_ItemComentario(object):
         self.labelTime.setObjectName("labelTime")
         self.horizontalLayout.addWidget(self.labelTime)
         self.verticalLayout_2.addLayout(self.horizontalLayout)
-        self.labelComentario = QtGui.QLabel(ItemComentario)
+        self.labelComentario = QtGui.QLabel(commentItem)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -83,18 +85,19 @@ class Ui_ItemComentario(object):
         self.labelComentario.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.labelComentario.setWordWrap(True)
         self.labelComentario.setMargin(3)
+        self.labelComentario.setOpenExternalLinks(True)
         self.labelComentario.setObjectName("labelComentario")
         self.verticalLayout_2.addWidget(self.labelComentario)
         self.horizontalLayout_2.addLayout(self.verticalLayout_2)
         spacerItem1 = QtGui.QSpacerItem(3, 20, QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem1)
 
-        self.retranslateUi(ItemComentario)
-        QtCore.QMetaObject.connectSlotsByName(ItemComentario)
+        self.retranslateUi(commentItem)
+        QtCore.QMetaObject.connectSlotsByName(commentItem)
 
-    def retranslateUi(self, ItemComentario):
-        ItemComentario.setWindowTitle(QtGui.QApplication.translate("ItemComentario", "Form", None, QtGui.QApplication.UnicodeUTF8))
-        self.labelRedditor.setText(QtGui.QApplication.translate("ItemComentario", "TextLabel", None, QtGui.QApplication.UnicodeUTF8))
-        self.labelScore.setText(QtGui.QApplication.translate("ItemComentario", "TextLabel", None, QtGui.QApplication.UnicodeUTF8))
-        self.labelTime.setText(QtGui.QApplication.translate("ItemComentario", "TextLabel", None, QtGui.QApplication.UnicodeUTF8))
+    def retranslateUi(self, commentItem):
+        commentItem.setWindowTitle(QtGui.QApplication.translate("commentItem", "Form", None, QtGui.QApplication.UnicodeUTF8))
+        self.labelRedditor.setText(QtGui.QApplication.translate("commentItem", "TextLabel", None, QtGui.QApplication.UnicodeUTF8))
+        self.labelScore.setText(QtGui.QApplication.translate("commentItem", "TextLabel", None, QtGui.QApplication.UnicodeUTF8))
+        self.labelTime.setText(QtGui.QApplication.translate("commentItem", "TextLabel", None, QtGui.QApplication.UnicodeUTF8))
 

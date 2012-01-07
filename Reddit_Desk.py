@@ -21,10 +21,12 @@ import threading
 
 import reddit
 
-from ui import Ui_MainWindow
-from item import Ui_Item
-from itemComentario import Ui_ItemComentario
+from MainWindow import Ui_MainWindow
+from RDMainWindow import RDMainWindow
+from submissionItem import Ui_submissionItem
+from commentItem import Ui_commentItem
 from threads import *
+
 
 
 def unescape(string):
@@ -36,7 +38,7 @@ def unescape(string):
     return string
 
 def formatDate(num):
-    return str(int(num/3600000)) + " hours ago"
+    return str(num/3600000) + " hours ago"
 
 
 class Reddit_Desk():
@@ -71,7 +73,9 @@ class Reddit_Desk():
             self.password = str(self.UI.lineLogin.text())
             
             try:
-                self.reddit.login(self.username, self.password)
+                #self.reddit.login(self.username, self.password)
+                self.requestThread = loginThread(self.reddit,self.username,self.password)
+                self.requestThread.finished.connect(self.refreshLogin)
             except reddit.api_exceptions.InvalidUserPass:
                 [self.UI.comboSubreddit.addItem(i.display_name) for i in self.subredditList]
                 self.password=""
@@ -83,24 +87,27 @@ class Reddit_Desk():
                 self.UI.lineLogin.setText("Logged in as "+self.reddit.user.user_name)
                 self.UI.lineLogin.setEnabled(False)
                 self.loadSubreddits()
+    
+    def refreshLogin(self):
+        pass
                 
     
     def loadComment(self,comment, item):
         """
         Loads a comment widget with the comment's data and puts it onto the tree item       
         """
-        commentItem = Ui_ItemComentario()
-        widget = QtGui.QWidget(self.UI.treeComentarios)
+        commentItem = Ui_commentItem()
+        widget = QtGui.QWidget(self.UI.treeComments)
         commentItem.setupUi(widget)
         commentItem.labelScore.setText(str(comment.ups - comment.downs)+" points")
-        commentItem.labelComentario.setText(unescape(comment.body))
+        commentItem.labelComentario.setText(unescape(comment.body_html))
         commentItem.labelTime.setText(formatDate(comment.created))
         commentItem.labelRedditor.setText(comment.author.user_name)
         
         #commentItem.buttonUpvote.clicked.connect(comment.upvote)
         #commentItem.buttonDownvote.clicked.connect(comment.downvote)
 
-        self.UI.treeComentarios.setItemWidget(item, 0 , widget)
+        self.UI.treeComments.setItemWidget(item, 0 , widget)
 
     
     def loadReplies(self, comment, item):
@@ -120,11 +127,10 @@ class Reddit_Desk():
         front page
         """
         if(self.UI.comboSubreddit.currentIndex()>=0 and not self.requestThread.isRunning()):
-            self.UI.labelTitulo.setText("Loading Post List...")
+            self.UI.labelTitle.setText("Loading Post List...")
             self.UI.listPosts.clear()
             
             if(self.UI.comboSubreddit.currentIndex() == 0):
-                print "requesting front page"
                 self.requestThread = requestPostListThread(\
                                                         self.currentPostList,\
                                                         reddit=self.reddit)
@@ -145,11 +151,11 @@ class Reddit_Desk():
             
         for i in self.currentPostList:
             item = QtGui.QListWidgetItem(self.UI.listPosts)
-            subredditItem = Ui_Item()   
+            subredditItem = Ui_submissionItem()   
             widget = QtGui.QWidget()
             subredditItem.setupUi(widget)
             subredditItem.labelScore.setText(str(i.score))
-            subredditItem.labelTitulo.setText(i.title)
+            subredditItem.labelTitle.setText(i.title)
             subredditItem.labelSubreddit.setText("in "+i.subreddit.display_name)
             subredditItem.labelRedditor.setText("by "+i.author.user_name)
             
@@ -163,7 +169,7 @@ class Reddit_Desk():
         Starts the thread to request a submission's data.
         """
         if(not self.requestThread.isRunning()):
-            self.UI.labelTitulo.setText("Loading Submission...")
+            self.UI.labelTitle.setText("Loading Submission...")
             self.currentSubmission = self.currentPostList[self.UI.listPosts.currentRow()]
             self.requestThread = requestSubmissionThread(self.currentSubmission)
             self.requestThread.finished.connect(self.loadSubmission)
@@ -173,30 +179,46 @@ class Reddit_Desk():
         """
         Fills the title, web view and comment tree with the current submission.
         """
-        
-        ##load
          #webview
         if(self.currentSubmission.is_self):
-            self.UI.webLink.setHtml(unescape(self.currentSubmission.selftext_html))
+            self.UI.webView.setHtml(unescape(self.currentSubmission.selftext_html))
         else:
-            self.UI.webLink.load(QtCore.QUrl(self.currentSubmission.url))
+            self.UI.webView.load(QtCore.QUrl(self.currentSubmission.url))
             
         #comments        
-        self.UI.treeComentarios.clear()
+        self.UI.treeComments.clear()
         for i in self.currentSubmission.comments:
             if type(i)!=type({}): #The list has a dictionary at the end for some reason
-                item = QtGui.QTreeWidgetItem(self.UI.treeComentarios)
-                self.UI.treeComentarios.addTopLevelItem(item)
+                item = QtGui.QTreeWidgetItem(self.UI.treeComments)
+                self.UI.treeComments.addTopLevelItem(item)
                 self.loadComment(i,item)
                 self.loadReplies(i,item)                
         
-        self.UI.labelTitulo.setText(self.currentSubmission.title)
+        self.UI.labelTitle.setText(self.currentSubmission.title)
         
-        self.UI.treeComentarios.expandAll()
+        self.UI.treeComments.expandAll()
     
-    def __init__(self):
-
+    def __init__(self):        
+        #Set up the user interface
         self.UI.setupUi(self.form)
+        
+        self.form.addDockWidget(QtCore.Qt.LeftDockWidgetArea,\
+                                self.UI.dockPostList)
+        
+        self.form.addDockWidget(QtCore.Qt.LeftDockWidgetArea,\
+                                self.UI.dockWebView,\
+                                QtCore.Qt.Horizontal)
+        self.form.addDockWidget(QtCore.Qt.LeftDockWidgetArea,\
+                                self.UI.dockComments,\
+                                QtCore.Qt.Horizontal)
+        
+        #BEGIN Setting default layout        
+        self.form.setCentralWidget(None) #Effectively makes the whole window a Dock Area        
+        self.form.tabifyDockWidget(self.UI.dockWebView,self.UI.dockComments)        
+        #END default layout   
+        
+        self.UI.dockWebView.raise_()
+        self.UI.toolBar.addWidget(self.UI.labelTitle)
         
         #setup signals & slots:
         self.UI.listPosts.itemSelectionChanged.connect(self.requestSubmission)
@@ -208,11 +230,9 @@ class Reddit_Desk():
         
         try:
             self.loadSubreddits()
-            #loadSubredditsThread(self).start()
         except URLError:
-            self.UI.labelTitulo.setText("No Internet connection")
-        
-        
+            self.UI.labelTitle.setText("No Internet connection")
+            
         self.app.exec_()
         sys.exit()        
         

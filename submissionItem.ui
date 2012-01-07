@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Item</class>
- <widget class="QWidget" name="Item">
+ <class>submissionItem</class>
+ <widget class="QWidget" name="submissionItem">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -13,11 +13,14 @@
   <property name="minimumSize">
    <size>
     <width>0</width>
-    <height>105</height>
+    <height>0</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2">
    <item>
@@ -41,7 +44,8 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>upvote.png</normaloff>upvote.png</iconset>
+         <normaloff>upvote-off.png</normaloff>
+         <normalon>upvote-on.png</normalon>upvote-off.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -96,7 +100,8 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>downvote.png</normaloff>downvote.png</iconset>
+         <normaloff>downvote-off.png</normaloff>
+         <normalon>downvote-on.png</normalon>downvote-off.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -133,7 +138,7 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <widget class="QLabel" name="labelTitulo">
+      <widget class="QLabel" name="labelTitle">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>
